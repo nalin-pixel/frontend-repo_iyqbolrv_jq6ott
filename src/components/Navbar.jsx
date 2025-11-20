@@ -1,6 +1,6 @@
-import { Menu } from 'lucide-react'
+import { Menu, LogIn } from 'lucide-react'
 
-export default function Navbar() {
+export default function Navbar({ onLoginClick }) {
   return (
     <header className="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-slate-900/60 bg-slate-900/80 border-b border-white/10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -13,9 +13,14 @@ export default function Navbar() {
           <a href="#about" className="hover:text-white">About</a>
           <a href="#contact" className="hover:text-white">Contact</a>
         </nav>
-        <button className="md:hidden text-slate-200 hover:text-white" aria-label="Open menu">
-          <Menu className="w-6 h-6" />
-        </button>
+        <div className="flex items-center gap-3">
+          <button onClick={onLoginClick} className="hidden sm:inline-flex items-center gap-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold px-3 py-2 transition-colors">
+            <LogIn className="w-4 h-4" /> Sign in
+          </button>
+          <button className="md:hidden text-slate-200 hover:text-white" aria-label="Open menu">
+            <Menu className="w-6 h-6" />
+          </button>
+        </div>
       </div>
     </header>
   )

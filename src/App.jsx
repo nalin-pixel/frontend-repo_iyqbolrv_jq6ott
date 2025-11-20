@@ -3,6 +3,7 @@ import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import EventCard from './components/EventCard'
 import Chatbot from './components/Chatbot'
+import AuthModal from './components/AuthModal'
 
 function App() {
   const baseUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000'
@@ -10,6 +11,10 @@ function App() {
   const [remoteEvents, setRemoteEvents] = useState([])
   const [localEvents, setLocalEvents] = useState([])
   const [loading, setLoading] = useState(true)
+  const [authOpen, setAuthOpen] = useState(false)
+  const [user, setUser] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('user') || 'null') } catch { return null }
+  })
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,9 +62,11 @@ function App() {
     }
   }
 
+  const onAuthed = (u) => setUser(u)
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-100">
-      <Navbar />
+      <Navbar onLoginClick={() => setAuthOpen(true)} />
       <Hero onSearch={setQuery} />
       <section id="events" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-24">
         <div className="flex items-center justify-between mb-6">
@@ -77,6 +84,7 @@ function App() {
         )}
       </section>
       <Chatbot baseUrl={baseUrl} />
+      <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} baseUrl={baseUrl} onAuthed={onAuthed} />
     </div>
   )
 }
